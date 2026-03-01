@@ -1,4 +1,4 @@
-FROM rust:1.70-bullseye as builder
+FROM rust:1.78-bullseye as builder
 WORKDIR /usr/src/app
 
 # Install native deps needed for some crates (pkg-config, OpenSSL dev headers)
@@ -14,7 +14,6 @@ RUN cargo build --release || true
 
 # Copy source and build the real binary
 COPY . ./
-RUN rm -f src/main.rs || true
 RUN cargo build --release
 
 
