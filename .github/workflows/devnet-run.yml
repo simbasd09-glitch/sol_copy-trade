@@ -19,6 +19,14 @@ jobs:
           echo "GRPC_ENDPOINT=${GRPC_ENDPOINT}" > .env
           echo "X_TOKEN=${X_TOKEN}" >> .env
 
+      - name: Ensure .cargo placeholder exists
+        if: always()
+        run: |
+          if [ ! -d .cargo ]; then
+            mkdir -p .cargo
+            echo "# placeholder cargo config" > .cargo/config
+          fi
+
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
 
