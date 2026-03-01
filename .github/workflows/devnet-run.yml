@@ -30,9 +30,12 @@ jobs:
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker image
+      - name: Build Docker image (show full output)
+        env:
+          DOCKER_BUILDKIT: 0
         run: |
-          docker build --no-cache -t solsnipe:ci .
+          # disable BuildKit to ensure full stdout/stderr from cargo is visible in Actions logs
+          DOCKER_BUILDKIT=0 docker build --no-cache --progress=plain -t solsnipe:ci .
 
       - name: Run container
         env:
