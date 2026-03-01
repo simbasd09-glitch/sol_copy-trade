@@ -1,0 +1,17 @@
+{
+  "dev_wallets": [
+    "DevWalletPubkey1",
+    "DevWalletPubkey2"
+  ],
+  "buy_amount_sol": 0.01,
+  "slippage_bps": 1000,
+  "priority_fee_multiplier": 1.5,
+  "min_market_cap": 2000,
+  "max_market_cap": 4000,
+  "stop_loss_percent": 10.0,
+  "take_profit_percent": 50.0,
+  "sell_delay_seconds": 60,
+  "jito_tip_lamports": 100000,
+  "min_balance_threshold_sol": 0.05,
+  "max_concurrent_trades": 5
+}

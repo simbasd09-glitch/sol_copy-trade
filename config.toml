@@ -1,0 +1,29 @@
+network = "devnet"
+
+[[rpc_providers]]
+name = "helius"
+url = "https://devnet.helius-rpc.com/?api-key=aa276a8c-765c-4679-91fc-2b5fbd59dc63"
+role = "all"
+weight = 1.0
+
+[[rpc_providers]]
+name = "chainstack"
+url = "https://solana-mainnet.core.chainstack.com/c08d3c770ff55ffd4da8f3f6f69091f9"
+role = "all"
+weight = 1.0
+
+[[rpc_providers]]
+name = "public"
+url = "https://api.devnet.solana.com"
+role = "all"
+weight = 1.0
+
+[grpc]
+endpoint = ""       # no gRPC endpoint configured for now
+program_filter = []
+x_token = ""        # optional token for publicnode or other providers
+
+[trading]
+min_liquidity_sol = 0.1
+slippage_bps = 500
+buy_amount_sol = 0.01

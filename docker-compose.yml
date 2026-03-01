@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  solana-copy-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: solana-copy-bot:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # explicit passthrough so users can override these in .env or the environment
+      - TELEGRAM_BOT_TOKEN
+      - WALLET_PRIVATE_KEY_BASE58
+      - HELIUS_API_KEY
+      - JITO_API_KEY
+      - GRPC_ENDPOINT
+      - X_TOKEN
+      - CONFIG_PATH
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - ./.env:/app/.env:ro
+      - ./data:/app/data
+    ports:
+      - "8080:8080"
+    depends_on:
+      - richat
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '3.5'
+          memory: '20G'
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # Optional: run Richat/Yellowstone gRPC connector as a separate container.
+  # By default this service is a template that uses the same image; adjust `command`
+  # to run only the Richat client or a dedicated relay process if available.
+  richat:
+    image: solana-copy-bot:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - GRPC_ENDPOINT
+      - X_TOKEN
+      - CONFIG_PATH
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+    healthcheck:
+      test: ["CMD-SHELL", "if [ -n \"$GRPC_ENDPOINT\" ]; then curl -k --max-time 5 -sSf \"$GRPC_ENDPOINT\" >/dev/null 2>&1 || exit 1; else exit 1; fi"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # Default command is a placeholder; replace with the proper entry command
+    # to run the richat-only process if your binary supports such a mode.
+    command: ["/bin/sh", "-c", "echo 'Richat container configured; set proper command'; sleep infinity"]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

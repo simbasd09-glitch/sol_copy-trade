@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  solana-copy-bot:
+    image: solsnipe
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+    ports:
+      - "8080:8080"

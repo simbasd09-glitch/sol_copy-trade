@@ -1,0 +1,58 @@
+name: Devnet Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  devnet-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t solsnipe:ci .
+
+      - name: Run container
+        env:
+          GRPC_ENDPOINT: ${{ secrets.GRPC_ENDPOINT }}
+          X_TOKEN: ${{ secrets.X_TOKEN }}
+        run: |
+          docker run -d --name solsnipe_ci -p 8080:8080 \
+            -e GRPC_ENDPOINT="${GRPC_ENDPOINT}" -e X_TOKEN="${X_TOKEN}" \
+            -v $GITHUB_WORKSPACE/config.devnet.toml:/app/config.toml:ro \
+            solsnipe:ci || true
+          sleep 5
+
+      - name: Wait for health endpoint
+        run: |
+          for i in {1..30}; do
+            if curl -sS http://localhost:8080/health >/dev/null 2>&1; then
+              echo "service healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "healthcheck failed" >&2
+          docker logs solsnipe_ci || true
+          exit 1
+
+      - name: Capture logs
+        if: always()
+        run: docker logs --tail 1000 solsnipe_ci > solsnipe.log || true
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: solsnipe-logs
+          path: solsnipe.log
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker rm -f solsnipe_ci || true

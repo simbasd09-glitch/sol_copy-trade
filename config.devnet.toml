@@ -1,0 +1,29 @@
+network = "devnet"
+
+[[rpc_providers]]
+name = "chainstack"
+url = "https://solana-devnet.chainstack.com/your-endpoint"
+role = "all"
+weight = 1.0
+
+[[rpc_providers]]
+name = "publicnode"
+url = "https://devnet.solana-rpc.publicnode.com"
+role = "all"
+weight = 1.0
+
+[[rpc_providers]]
+name = "public"
+url = "https://api.devnet.solana.com"
+role = "all"
+weight = 1.0
+
+[grpc]
+endpoint = "https://solana-rpc.publicnode.com:10000"
+program_filter = ["6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"]
+x_token = ""
+
+[trading]
+min_liquidity_sol = 0.01
+slippage_bps = 500
+buy_amount_sol = 0.001

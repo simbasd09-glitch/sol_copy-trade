@@ -1,0 +1,52 @@
+
+[package]
+name = "solana-copy-bot"
+version = "0.1.0"
+edition = "2021"
+
+# devnet_test binary removed to simplify build during development
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+solana-client = "3.0.0"
+solana-sdk = "3.0.0"
+solana-program = "3.0.0"
+anyhow = "1.0"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+dotenv = "0.15"
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+tonic = "0.10"
+prost = "0.12"
+chrono = { version = "0.4", features = ["serde"] }
+async-trait = "0.1"
+futures = "0.3"
+lazy_static = "1.4"
+parking_lot = "0.12"
+dashmap = "5.5"
+telegram-bot = "0.8.0"
+axum = "0.6"
+tokio-stream = "0.1"
+futures-util = "0.3"
+base64 = "0.21"
+bincode = "1.3"
+spl-token = "3.0.0"
+hedged-rpc-client = "0.1.0"
+warp = "0.3"
+
+# Richat streaming and environment/runtime additions
+solana-stream-sdk = "1.1.1"
+dotenvy = "0.15"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockall = "0.11"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3

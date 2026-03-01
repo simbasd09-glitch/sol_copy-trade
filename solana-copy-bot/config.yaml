@@ -1,0 +1,49 @@
+sol_price_usd: 100
+
+copy_trade:
+  enabled: true
+  multiplier: 0.1
+  max_usd_per_trade: 7
+  copy_buys: true
+  copy_sells: true
+  min_dev_trade_sol: 0.01
+
+entry_filter:
+  use_market_cap: true
+  min_market_cap_usd: 2000
+  max_market_cap_usd: 4000
+
+exit:
+  take_profit_percent: 50
+  stop_loss_initial_percent: 20
+  stop_loss_breakeven_after_percent: 20
+  stop_loss_trail_percent: 10
+
+buy:
+  slippage_bps: 3000
+  jito_tip_sol: 0.001
+  max_priority_fee_micro_lamports: 5000
+
+rpcs:
+  primary:
+    - url: "https://api.mainnet-beta.solana.com"
+    - url: "https://solana-api.drpc.org"
+  helius:
+    url: "https://mainnet.helius-rpc.com"
+    grpc: "https://grpc.helius.xyz:443"
+    auth_token: "YOUR_KEY"
+  jito:
+    bundle_url: "https://mainnet.block-engine.jito.wtf/api/v1/bundles"
+    tip_account: "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
+
+programs:
+  pump_fun: "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
+
+telegram:
+  enabled: true
+  bot_token: "YOUR_BOT_TOKEN"
+  chat_id: "YOUR_CHAT_ID"
+
+log:
+  level: "info"
+  file: "logs/bot.log"
