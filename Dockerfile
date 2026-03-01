@@ -27,7 +27,6 @@ COPY --from=builder /usr/src/app/target/release/solana-copy-bot /usr/local/bin/s
 
 # Copy runtime config files (overridden by bind-mounts in compose)
 COPY config.toml /app/config.toml
-COPY .env /app/.env
 
 EXPOSE 8080
 

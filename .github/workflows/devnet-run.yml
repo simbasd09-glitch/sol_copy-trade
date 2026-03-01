@@ -10,6 +10,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create .env from secrets
+        if: always()
+        env:
+          GRPC_ENDPOINT: ${{ secrets.GRPC_ENDPOINT }}
+          X_TOKEN: ${{ secrets.X_TOKEN }}
+        run: |
+          echo "GRPC_ENDPOINT=${GRPC_ENDPOINT}" > .env
+          echo "X_TOKEN=${X_TOKEN}" >> .env
+
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
 
