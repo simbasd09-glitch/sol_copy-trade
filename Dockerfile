@@ -1,4 +1,4 @@
-FROM rust:1.78-bullseye as builder
+FROM rust:nightly-bullseye as builder
 WORKDIR /usr/src/app
 
 # Install native deps needed for some crates (pkg-config, OpenSSL dev headers)
