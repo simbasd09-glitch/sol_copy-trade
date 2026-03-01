@@ -39,7 +39,7 @@ hedged-rpc-client = "0.1.0"
 warp = "0.3"
 
 # Richat streaming and environment/runtime additions
-solana-stream-sdk = "1.1.1"
+# solana-stream-sdk removed; using a placeholder Richat client implementation
 dotenvy = "0.15"
 
 [dev-dependencies]
