@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t solsnipe:ci .
+          docker build --no-cache -t solsnipe:ci .
 
       - name: Run container
         env:
